@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Placeholder favicon: "FW." mark. Replace with your final logo if needed. -->
+  <rect width="64" height="64" rx="14" fill="#2E2724"/>
+  <text x="9" y="43" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="-2" fill="#F7F4EF">FW</text>
+  <circle cx="53" cy="40" r="3.6" fill="#D95A41"/>
+</svg>

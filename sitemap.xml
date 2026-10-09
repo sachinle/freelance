@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Before launch, replace https://www.example.com with your production domain
+     and update <lastmod> whenever the page content changes. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.example.com/</loc>
+    <lastmod>2026-10-09</lastmod>
+  </url>
+  <url>
+    <loc>https://www.example.com/privacy.html</loc>
+    <lastmod>2026-10-09</lastmod>
+  </url>
+</urlset>
