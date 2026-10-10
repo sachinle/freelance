@@ -1,13 +1,14 @@
 /* Enquiry notification email, styled like the website: oatmeal canvas,
  * warm-white card, espresso text, terracotta accents, pill buttons and the
  * espresso footer band. Table layout + inline styles so it renders the same
- * in Gmail, Outlook and Apple Mail. The logo is attached inline (CID), so it
- * shows even when the mail app blocks remote images.
+ * in Gmail, Outlook and Apple Mail.
+ *
+ * Kept deliberately "plain" for spam filters: no images or attachments, no
+ * hidden preview text, no external stylesheets or web fonts, and a real
+ * text/plain part. The brand mark is drawn with text.
  *
  * Files in api/_lib are helpers, not endpoints (Vercel skips "_" folders).
  */
-import { readFileSync } from 'node:fs';
-
 const C = {
   canvas: '#f7f4ef', surface: '#fffefc', subtle: '#e9e1d7', accentSubtle: '#f6e1d9',
   text: '#2e2724', secondary: '#746861', border: '#ded5ca',
@@ -15,18 +16,7 @@ const C = {
 };
 const SANS = "'DM Sans','Segoe UI',Helvetica,Arial,sans-serif";
 const DISPLAY = "Manrope,'Segoe UI',Helvetica,Arial,sans-serif";
-const LOGO_CID = 'logo@freelancecentre.online';
 const SITE = 'freelancecentre.online';
-
-let logo;
-function logoAttachment() {
-  try {
-    logo = logo || readFileSync(new URL('./logo-email.png', import.meta.url));
-    return { filename: 'freelance-web-developers.png', content: logo, cid: LOGO_CID, contentType: 'image/png', contentDisposition: 'inline' };
-  } catch {
-    return null; // fall back to the text wordmark
-  }
-}
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -59,7 +49,7 @@ function button(href, text, primary) {
 /**
  * @param {object} v       validated values from api/enquiry.js
  * @param {string} service human-readable service name
- * @returns {{subject:string,text:string,html:string,attachments:object[]}}
+ * @returns {{subject:string,text:string,html:string}}
  */
 export function renderEnquiryEmail(v, service) {
   const firstName = v.name.split(' ')[0];
@@ -95,11 +85,11 @@ export function renderEnquiryEmail(v, service) {
       <td valign="top" style="padding:12px 0;${i ? `border-top:1px solid ${C.border};` : ''}font-family:${SANS};font-size:15px;line-height:24px;color:${C.text};word-break:break-word;">${val}</td>
     </tr>`).join('');
 
-  const att = logoAttachment();
-  const brand = att
-    ? `<img src="cid:${LOGO_CID}" width="220" height="48" alt="Freelance Web Developers" style="display:block;width:220px;height:auto;border:0;outline:none;text-decoration:none;">`
-    : `<span style="font-family:${DISPLAY};font-size:20px;line-height:24px;font-weight:600;color:${C.text};">Freelance Web Developers<span style="color:${C.brand};">.</span></span>`;
-  const preheader = [v.name, service, v.budget, 'prefers ' + v.contactPref].filter(Boolean).join(' · ');
+  // Text lockup in the style of the logo: "FW." monogram, rule, two-line name
+  const brand = `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+          <td valign="middle" style="padding-right:12px;font-family:${DISPLAY};font-size:30px;line-height:32px;font-weight:700;letter-spacing:-1px;color:${C.text};">FW<span style="color:${C.brand};">.</span></td>
+          <td valign="middle" style="padding-left:12px;border-left:1px solid ${C.text};font-family:${DISPLAY};font-size:15px;line-height:18px;font-weight:600;color:${C.text};">Freelance<br>Web Developers</td>
+        </tr></table>`;
 
   const html = `<!doctype html>
 <html lang="en">
@@ -109,7 +99,6 @@ export function renderEnquiryEmail(v, service) {
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
 <title>${esc(subject)}</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Manrope:wght@500;600&display=swap" rel="stylesheet">
 <style>
   body { margin: 0; padding: 0; background: ${C.canvas}; }
   a { color: ${C.accentText}; }
@@ -122,7 +111,6 @@ export function renderEnquiryEmail(v, service) {
 </style>
 </head>
 <body style="margin:0;padding:0;background:${C.canvas};">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:${C.canvas};">${esc(preheader)}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.canvas}" style="background:${C.canvas};">
 <tr><td align="center" style="padding:32px 12px 40px;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;">
@@ -192,5 +180,5 @@ export function renderEnquiryEmail(v, service) {
     '— Freelance Web Developers · Your Business. Our Digital Solutions.',
   ].join('\n');
 
-  return { subject, text, html, attachments: att ? [att] : [] };
+  return { subject, text, html };
 }

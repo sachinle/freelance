@@ -39,7 +39,7 @@ Every page shares the same header (desktop nav with a Services mega menu; mobile
 | `favicon.ico`, `apple-touch-icon.png`, `og-image.png` | Browser icons and the social sharing image |
 | `sitemap.xml`, `robots.txt` | Search engine files (generated) |
 | `api/enquiry.js` | Vercel serverless function that emails enquiries through Gmail SMTP |
-| `api/_lib/email-template.js`, `api/_lib/logo-email.png` | The branded enquiry email (site colours, one-tap WhatsApp / email / call replies) and its inline logo |
+| `api/_lib/email-template.js` | The branded enquiry email (site colours, text logo, one-tap WhatsApp / email / call replies) |
 | `package.json`, `package-lock.json` | The function's one dependency (`nodemailer`, pinned) |
 | `vercel.json` | Function timeout and security headers |
 | `.env.example` | Names of the environment variables (placeholders only, never real values) |
@@ -88,9 +88,20 @@ Your Gmail login is stored only in Vercel's encrypted environment variables. It 
    | `GMAIL_USER` | the Gmail address that sends the mail |
    | `GMAIL_APP_PASSWORD` | the 16-character App Password (spaces optional) |
    | `MAIL_TO` | the inbox(es) that receive enquiries, separated by commas (for example `first@gmail.com, second@gmail.com`); defaults to `GMAIL_USER` |
+   | `MAIL_FROM_NAME` | optional: sender name shown in the inbox; defaults to `Freelance Web Developers` |
 
 4. **Redeploy** (Deployments › ⋯ › Redeploy). Environment variables only apply to new deployments.
-5. **Test:** send an enquiry from `/contact/`. It arrives from "Website enquiry", and **Reply** goes straight to the visitor.
+5. **Test:** send an enquiry from `/contact/`. It arrives from "Freelance Web Developers", and **Reply** goes straight to the visitor.
+
+### If enquiries land in Spam
+
+Gmail is cautious with a new automated sender. Do this once **in each receiving inbox**:
+
+1. Open the enquiry in **Spam** and click **Report not spam** (or **Looks safe**).
+2. Add the sending address (your company Gmail) to **Google Contacts**.
+3. Create a filter: Settings (gear) › See all settings › **Filters and Blocked Addresses** › **Create a new filter** › **From:** the company Gmail address › **Create filter** › tick **Never send it to Spam** (optionally also **Always mark it as important**) › **Create filter**.
+
+The filter is the permanent fix: Gmail will never route these enquiries to Spam again. The email itself is already kept spam-friendly: Gmail signs it (SPF and DKIM pass, because it goes through Google's own servers), and it has a plain-text part, no images, attachments, hidden text or external stylesheets.
 
 If the App Password is ever exposed, revoke it in Google (App passwords › delete), create a new one and update the Vercel variable. Never paste credentials into `site.js`, the HTML, `vercel.json` or a committed `.env` file.
 

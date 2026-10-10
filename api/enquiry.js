@@ -9,6 +9,8 @@
  *   GMAIL_APP_PASSWORD  a 16-character Google App Password (not the account password)
  *   MAIL_TO             optional; inbox(es) that receive enquiries, comma-separated
  *                       (defaults to GMAIL_USER)
+ *   MAIL_FROM_NAME      optional; sender name shown in the inbox
+ *                       (defaults to "Freelance Web Developers")
  *   ALLOWED_ORIGINS     optional; extra comma-separated origins allowed to post
  *   MAIL_DRY_RUN        optional; "1" builds the email without sending (local testing)
  *
@@ -56,6 +58,7 @@ function getTransporter() {
   if (!transporter) {
     transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
+      name: 'freelancecentre.online', // EHLO name; serverless hosts otherwise announce a random machine name
       port: 465,
       secure: true, // TLS from the first byte
       // Google shows App Passwords as four groups of four; spaces are not part of it
@@ -191,16 +194,15 @@ export default async function handler(req, res) {
 
   const sender = (process.env.GMAIL_USER || 'dry-run@example.com').trim();
   const recipients = parseRecipients(process.env.MAIL_TO);
-  const { subject, text, html, attachments } = renderEnquiryEmail(values, SERVICES[values.service]);
+  const { subject, text, html } = renderEnquiryEmail(values, SERVICES[values.service]);
   try {
     const info = await getTransporter().sendMail({
-      from: { name: 'Website enquiry', address: sender },
+      from: { name: oneLine(process.env.MAIL_FROM_NAME || 'Freelance Web Developers').replace(/["<>]/g, ''), address: sender },
       to: recipients.length ? recipients : sender,
       replyTo: values.email ? { name: values.name, address: values.email } : undefined,
       subject,
       text,
       html,
-      attachments,
     });
     if (process.env.MAIL_DRY_RUN === '1') return send(res, 200, { ok: true, dryRun: true, message: JSON.parse(info.message) });
     return send(res, 200, { ok: true });
