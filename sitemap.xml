@@ -1,13 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Before launch, replace https://www.example.com with your production domain
-     and update <lastmod> whenever the page content changes. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.example.com/</loc>
-    <lastmod>2026-10-09</lastmod>
+    <loc>https://freelancecentre.online/</loc>
+    <lastmod>2026-10-10</lastmod>
   </url>
   <url>
-    <loc>https://www.example.com/privacy.html</loc>
-    <lastmod>2026-10-09</lastmod>
+    <loc>https://freelancecentre.online/about/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/services/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/work/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/work/morning-crumb/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/industries/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/contact/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/privacy-policy/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/services/website-development/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/services/seo-services/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/services/local-seo/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/services/social-media-marketing/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/services/graphic-design/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/services/branding-reputation/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/services/ecommerce-marketing/</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://freelancecentre.online/services/analytics-tracking/</loc>
+    <lastmod>2026-10-10</lastmod>
   </url>
 </urlset>

@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "D:/freelance"],
+      "port": 8765
+    },
+    {
+      "name": "site-api",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["D:/freelance/tools/dev-server.mjs"],
+      "port": 3000
+    }
+  ]
+}

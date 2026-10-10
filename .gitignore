@@ -1,0 +1,13 @@
+# Dependencies (Vercel installs them from package-lock.json)
+node_modules/
+
+# Secrets: Gmail credentials live only in Vercel environment variables
+.env
+.env.*
+!.env.example
+
+# Vercel CLI
+.vercel/
+
+# Python cache from tools/site-generator
+__pycache__/

@@ -1,0 +1,87 @@
+  <main id="main">
+
+    <!-- 1 · Hero -->
+    <section class="page-hero" aria-labelledby="work-title" style="padding-bottom:80px">
+      <div class="container page-hero__grid">
+        <div class="page-hero__copy">
+          {{crumbs:Our Work}}
+          <p class="eyebrow">Our work</p>
+          <h1 class="t-display" id="work-title" style="max-width:720px">Ideas Turned Into Digital Experiences<span class="dot-end">.</span></h1>
+          <p class="t-lead">Concept projects that show how we approach structure, design and usability for different kinds of businesses. Each one is clearly labelled — client work appears here only with permission.</p>
+        </div>
+        <aside class="legend" aria-label="How to read this page">
+          <p class="t-label">How to read this page</p>
+          <div class="legend__row"><span class="tag tag--concept">Concept project</span><p class="t-small">Designed by us to show our approach. Fictional brand — no results claimed.</p></div>
+          <div class="legend__row"><span class="tag tag--live">Live project</span><p class="t-small">Real client work, shown only with permission. None published yet.</p></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 2 · Filters -->
+    <div class="filters">
+      <div class="container filters__inner">
+        <div class="filters__group" role="group" aria-label="Filter projects" data-filters>
+          <button class="chip" type="button" aria-pressed="true" data-filter-value="all"><span>All</span><span>6</span></button>
+          <button class="chip" type="button" aria-pressed="false" data-filter-value="websites"><span>Websites</span><span>5</span></button>
+          <button class="chip" type="button" aria-pressed="false" data-filter-value="ecommerce"><span>E-commerce</span><span>1</span></button>
+          <button class="chip" type="button" aria-pressed="false" data-filter-value="seo"><span>SEO</span><span>3</span></button>
+          <button class="chip" type="button" aria-pressed="false" data-filter-value="creative"><span>Creative Design</span><span>2</span></button>
+          <button class="chip" type="button" aria-pressed="false" data-filter-value="marketing"><span>Marketing &amp; Analytics</span><span>2</span></button>
+        </div>
+        <p class="filters__count" aria-live="polite" data-filter-count>Showing 6 projects</p>
+      </div>
+    </div>
+
+    <!-- 3 · Featured -->
+    <section class="container featured" aria-labelledby="featured-title">
+      {{project:crumb:feature:h2}}
+      <div class="featured__notes">
+        <p class="eyebrow">Featured concept</p>
+        <h2 class="t-h2" id="featured-title">Three Taps From Hungry to Ordered.</h2>
+        <ul class="featured__points t-body">
+          <li><span class="i i-check"></span>Today’s menu is the first thing customers see</li>
+          <li><span class="i i-check"></span>Pre-orders arrive as structured WhatsApp messages</li>
+          <li><span class="i i-check"></span>Call and directions stay one tap away</li>
+        </ul>
+        <a class="btn btn--secondary" href="{{project-href:crumb}}">Read the concept study<span class="i i-arrow-right"></span></a>
+      </div>
+    </section>
+
+    <!-- 4 · All projects -->
+    <section class="container work-grid" aria-label="All concept projects">
+      {{project:northline:compact}}
+      {{project:loom:compact}}
+      {{project:ember:compact}}
+      {{project:hillside:compact}}
+      {{project:terra:compact}}
+      <div class="your-project mode-dark">
+        <div>
+          <p class="eyebrow">Next project</p>
+          <h2 class="t-h2">Have a Project Like These?</h2>
+          <p class="t-small">Tell us about your business and what you would like customers to do. We will suggest the right build and a realistic timeline.</p>
+        </div>
+        <a class="btn btn--solid btn--md" href="{{wa}}" target="_blank" rel="noopener" data-wa>Start a Conversation<span class="i i-whatsapp i-18"></span></a>
+      </div>
+    </section>
+
+    <!-- 5 · Concept vs live -->
+    <section class="compare" aria-labelledby="compare-title">
+      <div class="container split">
+        <div class="split__heading split__heading--narrow">
+          <p class="eyebrow">How we present work</p>
+          <h2 class="t-h2" id="compare-title">Honest About What You Are Looking At.</h2>
+        </div>
+        <div class="compare__cols">
+          <div><h3 class="t-h3">Concept projects</h3><p class="t-body">Designed by us for fictional brands to show how we structure pages, write content and design interfaces. They use licensed stock photography inside the designs and never claim results.</p></div>
+          <div><h3 class="t-h3">Live projects</h3><p class="t-body">Real client work, published only with the client’s permission. Results appear only when they were measured — with the source and time period stated.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="hide-sm" aria-label="Start a project" style="padding-bottom:var(--section-y)">
+      <div class="container">
+        {{cta}}
+      </div>
+    </section>
+  </main>

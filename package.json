@@ -1,0 +1,12 @@
+{
+  "name": "freelance-web-developers-site",
+  "private": true,
+  "description": "Static site plus one Vercel serverless function (api/enquiry.js) that emails enquiries through Gmail SMTP.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "nodemailer": "10.0.10"
+  }
+}

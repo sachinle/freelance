@@ -1,7 +1,5 @@
 # robots.txt — Freelance Web Developers
-# Before launch, replace https://www.example.com with your production domain.
-
 User-agent: *
 Allow: /
 
-Sitemap: https://www.example.com/sitemap.xml
+Sitemap: https://freelancecentre.online/sitemap.xml

@@ -1,0 +1,47 @@
+  <main id="main">
+
+    <!-- 1 · Hero -->
+    <section class="page-hero" aria-labelledby="industries-title">
+      <div class="container page-hero__grid">
+        <div class="page-hero__copy">
+          {{crumbs:Industries}}
+          <p class="eyebrow">Industries</p>
+          <h1 class="t-display" id="industries-title" style="max-width:720px">Digital Solutions for the Businesses We Know Best<span class="dot-end">.</span></h1>
+          <p class="t-lead">Every kind of business has different customers and different questions. Here is what we usually focus on for the businesses we work with most — a starting point, not a fixed package.</p>
+          <div class="page-hero__actions">
+            <a class="btn btn--primary" href="{{wa}}" target="_blank" rel="noopener" data-wa>Discuss Your Business<span class="i i-whatsapp"></span></a>
+            <a class="btn btn--secondary" href="{{root}}services/#finder">Use the Service Finder<span class="i i-arrow-right"></span></a>
+          </div>
+        </div>
+        {{industry-jump}}
+      </div>
+    </section>
+
+    <!-- 2 · Industries -->
+    <section aria-label="Industries we work with" style="padding-bottom:var(--space-2xl)">
+      <div class="container">
+        {{industry-blocks}}
+      </div>
+    </section>
+
+    <!-- 3 · Not listed -->
+    <section class="band" aria-labelledby="not-listed-title">
+      <div class="container band__inner">
+        <div class="band__copy">
+          <h2 class="t-h2" id="not-listed-title">Don’t See Your Industry?</h2>
+          <p class="t-lead">Most of what we do applies to any business that wants to be found and contacted. Tell us about yours, or let the service finder suggest a starting point.</p>
+        </div>
+        <div class="band__actions">
+          <a class="btn btn--primary" href="{{wa}}" target="_blank" rel="noopener" data-wa>Start a Conversation<span class="i i-whatsapp"></span></a>
+          <a class="btn btn--secondary" href="{{root}}services/#finder">Service Finder<span class="i i-arrow-right"></span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section aria-label="Start a project" style="padding:var(--space-4xl) 0 var(--section-y)">
+      <div class="container">
+        {{cta:espresso:industries}}
+      </div>
+    </section>
+  </main>

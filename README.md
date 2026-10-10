@@ -1,124 +1,138 @@
 # Freelance Web Developers — Website
 
-A short, lead-focused, single-page website for an independent web studio in Coimbatore. It is built with plain **HTML, CSS and vanilla JavaScript**: no framework, no build step. It runs on any shared host (cPanel, Hostinger and similar).
+The multi-page website for an independent digital solutions studio in Coimbatore, built from the Figma file **FW-dev** (Home, Pages — Core and Pages — Services). It is plain **HTML, CSS and vanilla JavaScript** with no framework and nothing to install, so it runs on any shared host (cPanel, Hostinger and similar).
 
-**The main hook is the delivery timeline:**
+Live domain: `https://freelancecentre.online`
 
-| Build | Typical delivery |
+## Pages
+
+| URL | Page |
 | --- | --- |
-| Single-page website / landing page | 1 week |
-| Business website (up to 5 pages) | 2 weeks |
-| E-commerce and custom builds | 4+ weeks |
+| `/` | Home |
+| `/about/` | About |
+| `/services/` | Services overview, service finder, timeline planner |
+| `/services/website-development/` | Website Development |
+| `/services/seo-services/` | SEO Services |
+| `/services/local-seo/` | Local SEO & Google Business Profile |
+| `/services/social-media-marketing/` | Social Media Marketing |
+| `/services/graphic-design/` | Graphic Design |
+| `/services/branding-reputation/` | Branding & Reputation |
+| `/services/ecommerce-marketing/` | E-commerce Marketing |
+| `/services/analytics-tracking/` | Analytics & Tracking |
+| `/work/` | Our Work (filterable concept projects) |
+| `/work/morning-crumb/` | Case study (concept) |
+| `/industries/` | Industries |
+| `/contact/` | Contact and enquiry form |
+| `/privacy-policy/` | Privacy Policy (`/privacy.html` redirects here) |
 
-## Page structure
-
-| # | Section | What it does |
-| --- | --- | --- |
-| 1 | **Hero** | Headline, calls to action and an interactive **delivery planner** (tabs with a wireframe preview, timeline bar and call to action) |
-| 2 | **About** | Two lines about the studio, plus "Who we work with" tags |
-| 3 | **Services** | Interactive tabs for five services, each with its delivery time |
-| 4 | **Our Work** | Swipeable **carousel** of concept projects with previous/next buttons, a counter and a progress bar |
-| 5 | **Offer** | "3 months free basic maintenance" voucher. The exclusions sit in an expandable "What's not included" |
-| 6 | **Contact** | Contact details and a short form with tap-to-select services. It sends to WhatsApp |
+Every page shares the same header (desktop nav with a Services mega menu; mobile drawer), footer and, on phones, a sticky Call / WhatsApp / Enquire bar.
 
 ## Files
 
-| File | Purpose |
+| Path | Purpose |
 | --- | --- |
-| `index.html` | The whole page, SEO tags and structured data |
-| `style.css` | All styles. Colours, type and spacing are variables in `:root` |
-| `script.js` | All behaviour. **Your business details go in `SITE_CONFIG` at the top** |
-| `privacy.html` | Short privacy notice, linked from the form and the footer |
-| `robots.txt` / `sitemap.xml` | Search engine files |
-| `favicon.svg` / `og-image.png` | Browser icon and social sharing image |
+| `*/index.html` | One folder per page, so URLs end in `/` |
+| `assets/css/site.css` | All styles. Design tokens (colours, type, spacing) are custom properties at the top |
+| `assets/js/site.js` | All behaviour: header, menus, slideshow, carousels, service finder, planner tabs, FAQ, portfolio filters, enquiry form, on-this-page highlighting |
+| `assets/icons/` | Icon SVGs exported from Figma (Lucide / Simple Icons) |
+| `assets/img/` | Logos and photos exported from Figma |
+| `favicon.ico`, `apple-touch-icon.png`, `og-image.png` | Browser icons and the social sharing image |
+| `sitemap.xml`, `robots.txt` | Search engine files (generated) |
+| `api/enquiry.js` | Vercel serverless function that emails enquiries through Gmail SMTP |
+| `api/_lib/email-template.js`, `api/_lib/logo-email.png` | The branded enquiry email (site colours, one-tap WhatsApp / email / call replies) and its inline logo |
+| `package.json`, `package-lock.json` | The function's one dependency (`nodemailer`, pinned) |
+| `vercel.json` | Function timeout and security headers |
+| `.env.example` | Names of the environment variables (placeholders only, never real values) |
+| `tools/site-generator/` | Optional page generator (see below). Not deployed |
+| `tools/dev-server.mjs` | Local preview that also runs the enquiry function. Not deployed |
 
-## Run locally
+## Preview locally
 
-- **XAMPP:** open `http://localhost/freelance/`
-- **Any folder:** run `python -m http.server 8000`, then open `http://localhost:8000/`
-- Or double-click `index.html`
+- **With the enquiry form working:** run `node tools/dev-server.mjs`, then open `http://localhost:3000/`. By default it is a dry run: the email is printed in the terminal and nothing is sent.
+- **Any folder:** run `python -m http.server 8000` in this folder, then open `http://localhost:8000/` (the form's "Send enquiry" will show its error message, because there is no `/api` here)
+- **XAMPP:** put the folder in `htdocs` and open `http://localhost/freelance/`
+- **Double-click `index.html`:** also works. Icons are embedded in the CSS, and a small script points folder links at `index.html` when a page is opened from disk.
 
-Fonts and photos load from Google Fonts and Unsplash, so you need an internet connection.
+Fonts load from Google Fonts, so previews need an internet connection.
+
+## Editing pages
+
+The header, footer and repeated blocks are identical on every page, so the pages are assembled by a small Python script instead of being edited one by one:
+
+```
+python tools/site-generator/build.py
+```
+
+- Page bodies live in `tools/site-generator/pages/*.html`. Service pages are built from the data in `content_services.py`.
+- Shared copy (services list, concept projects, industries, FAQs, contact details) lives at the top of `build.py` and in `content.py`.
+- The script rewrites every `index.html`, `sitemap.xml` and `robots.txt`, and re-embeds the icons in `site.css`. Edit CSS and JS directly in `assets/`.
+
+Small text fixes can also be made straight in the HTML files. They will be overwritten the next time the generator runs, unless you make the same change in its sources.
+
+## Enquiry form
+
+- **Send enquiry:** posts the form as JSON to `/api/enquiry`, a Vercel serverless function (`api/enquiry.js`). It validates everything again and emails the enquiry to your Gmail inbox. The visitor sees "Thank you" only after the email has actually been sent.
+- **Send via WhatsApp instead:** opens `wa.me/919500785451` with a summary of the form. The visitor presses Send in WhatsApp.
+- `contact/?service=<slug>` pre-selects the service. Service pages, the service finder and the timeline planner link this way.
+
+### Connect your Gmail (one-time setup)
+
+Your Gmail login is stored only in Vercel's encrypted environment variables. It is never in the code, the repository or anything a visitor's browser downloads.
+
+1. **Turn on 2-Step Verification** for the Google account: Google Account › Security › 2-Step Verification. App passwords need it.
+2. **Create an App Password:** Google Account › Security › App passwords (or go to `myaccount.google.com/apppasswords`). Name it "Website enquiries". Google shows a 16-character password once; copy it. **Do not use your normal Gmail password.** An App Password can only send mail, and you can revoke it at any time without changing your main password.
+3. **Add it to Vercel:** Project › Settings › Environment Variables. Add these for **Production** (and Preview if you test there), and tick **Sensitive**:
+
+   | Name | Value |
+   | --- | --- |
+   | `GMAIL_USER` | the Gmail address that sends the mail |
+   | `GMAIL_APP_PASSWORD` | the 16-character App Password (spaces optional) |
+   | `MAIL_TO` | the inbox(es) that receive enquiries, separated by commas (for example `first@gmail.com, second@gmail.com`); defaults to `GMAIL_USER` |
+
+4. **Redeploy** (Deployments › ⋯ › Redeploy). Environment variables only apply to new deployments.
+5. **Test:** send an enquiry from `/contact/`. It arrives from "Website enquiry", and **Reply** goes straight to the visitor.
+
+If the App Password is ever exposed, revoke it in Google (App passwords › delete), create a new one and update the Vercel variable. Never paste credentials into `site.js`, the HTML, `vercel.json` or a committed `.env` file.
+
+To test real sending on your own computer, copy `.env.example` to `.env.local` (git-ignored), fill it in and run `node --env-file=.env.local tools/dev-server.mjs`.
+
+### How the endpoint is protected
+
+- Accepts only `POST` with a JSON body under 16 KB, and only from your own site's origin. Extra origins can be added in `ALLOWED_ORIGINS`.
+- Every field is checked again on the server: lengths, email and phone format, consent, and service and budget against a fixed list.
+- Line breaks and control characters are stripped from anything that reaches an email header, so the form can't be used to add recipients. The message is HTML-escaped.
+- Mail goes only to your inbox. The visitor's address is used only as Reply-To, so the form can't be used to send email to other people.
+- A hidden honeypot field and a minimum fill time quietly drop simple bots. There's also a basic limit of 5 enquiries per 10 minutes per IP. For stronger protection, add a rate-limit rule in Vercel › Firewall.
+- Errors return a generic message. The server log records only the SMTP error code, never credentials or the visitor's details.
+- Uses Gmail's SMTP over TLS (`smtp.gmail.com:465`). Gmail allows about 500 messages a day from a personal account, which is far more than a contact form needs.
 
 ## Before launch
 
-1. **Add your details** in `script.js` › `SITE_CONFIG`:
-   - `whatsappNumber`: digits only, country code first (for example `919876543210`). **Required for the form.**
-   - `phoneNumber` (for example `'+91 98765 43210'`), `email`, `instagramUrl`, `portfolioUrl`
-   - Empty values stay hidden, so the site never shows a broken link.
-2. **Set your domain.** Replace `https://www.example.com` in:
-   - `index.html`: canonical, `og:url`, `og:image` and the JSON-LD block
-   - `privacy.html`: canonical
-   - `robots.txt`
-   - `sitemap.xml`
-   - `SITE_CONFIG.siteUrl`
-3. **Review `privacy.html`** so it matches how you actually work.
-4. **Test the form** (see below) on a phone and on a desktop.
+1. Check the contact details in `build.py` (`TEL_MAIN`, `TEL_CALLS`, `EMAIL`, `LINKEDIN`, `WA_CHANNEL`) and rebuild if they change.
+2. Review the Privacy Policy so it matches how you actually work (it names Vercel and Gmail).
+3. "Usually replies within one working day" appears on every enquiry banner. Keep it only if you can meet it.
+4. **Deploy on Vercel:** import the Git repository (or run `vercel` in this folder). Framework preset: **Other**. Leave the build command empty and the output directory as the project root. `.vercelignore` keeps `tools/` and other local files out of the deployment.
+5. Connect your Gmail (see above), redeploy and send a test enquiry.
+6. Add the domain `freelancecentre.online` in Vercel › Domains.
+7. Submit `https://freelancecentre.online/sitemap.xml` in Google Search Console.
 
-## Common edits
+## Content rules from the design
 
-- **Delivery timelines:** in `index.html`, find the `planner__panel` blocks in the hero and the `svc__panel` blocks in Services. Change the `<strong>1 week</strong>` text, the scope list, and the bar length (`style="--fill: 25%"` on a 4-week scale: 25% = 1 week, 50% = 2 weeks, 100% = 4+ weeks).
-- **Services:** each service is one tab button (`svc__tab`) plus one panel (`svc__panel`). Keep their `id` and `aria-controls` values paired.
-- **Form service options:** the radio buttons under "What do you need?". Any call-to-action with a matching `data-service="…"` value pre-selects that option.
-- **Portfolio:** each carousel slide is an `<article class="slide project" data-project="…">`. The six projects are **concepts**, labelled "Concept Project". Do not present them as client work. To show real work:
-  - add `url`, `status: 'live'` and accurate `tech` labels in `SITE_CONFIG.projects`;
-  - swap the slide's mockup for a screenshot `<img>`, with `width`, `height` and `alt` set.
+- The six portfolio projects are **concepts** and are always labelled "Concept project". Do not present them as client work. Results appear only for real, permissioned work with a measured source.
+- Third-party costs (domains, hosting, ad spend, marketplace fees, printing) are always stated as separate from the studio's fees.
 
-  A "View Project" link appears only when a valid URL is set.
-- **Colours and fonts:** edit the variables at the top of `style.css`. Buttons use `#C44D35`, a slightly deeper terracotta than the brand `#D95A41`, so white button text meets WCAG AA contrast.
+## Accessibility
 
-## How the form works
+- Skip link, visible focus rings, ARIA tabs (arrow keys, Home and End), disclosure FAQs and menus, and a focus-trapped mobile drawer.
+- Form errors use an icon and text, are linked with `aria-describedby`, and move focus to the first invalid field.
+- `prefers-reduced-motion` stops the slideshow, marquee and scroll effects.
 
-- **WhatsApp (default, no backend):** the form validates, builds a readable message and opens `https://wa.me/<number>`. The visitor taps Send in WhatsApp. A short status message confirms the next step, with a fallback link.
-- **Email fallback:** if `email` is set, a "Send a Project Enquiry" button opens the visitor's email app with the enquiry pre-filled.
-- **Form service (optional):** set `formEndpoint` to an HTTPS form URL (for example Formspree). The secondary button then posts the form there and shows a real success or error result. Never put secret keys in `script.js`. If you write your own endpoint, validate and sanitise everything on the server.
+## Tested
 
-### Test the lead flow
-
-1. Set `whatsappNumber` to a number you control.
-2. Submit the form empty. You should see inline errors for name, service and project details, and focus moves to the first one.
-3. Fill it in and submit:
-   - **Phone:** WhatsApp opens with the message ready.
-   - **Desktop:** WhatsApp Web opens in a new tab.
-4. Click any "Start…" or "Discuss…" button. The matching service chip in the form should be selected.
-
-## Upload to cPanel / Hostinger
-
-1. Zip the website files: `index.html`, `style.css`, `script.js`, `privacy.html`, `robots.txt`, `sitemap.xml`, `favicon.svg` and `og-image.png`.
-2. Open **File Manager** › `public_html` › upload the zip › **Extract**. Make sure `index.html` sits directly in `public_html`.
-3. Turn on the free SSL and force HTTPS.
-4. Submit `https://yourdomain.com/sitemap.xml` in Google Search Console.
-
-## Images
-
-Photos are from Unsplash (free under the Unsplash License) and are used as concept references. To self-host them, download each one, convert it to WebP, put it in `images/` and update the `src` attributes. Photo IDs used:
-
-- **About:** `1581291518857-4e27b48ff24e`, `1547658719-da2b51169166`
-- **Work:**
-  - Bakery: `1555507036-ab1f4038808a`
-  - Corporate: `1504307651254-35680f356dfd`
-  - Catalogue: `1523381210434-271e8be1f52b`
-  - Salon: `1600948836101-f9ffda59d250`
-  - Coffee: `1447933601403-0c6688de566e`
-  - Store: `1524758631624-e2822e304c36`
-
-URL pattern: `https://images.unsplash.com/photo-<ID>?auto=format&fit=crop&w=<w>&h=<h>&q=75`
-
-## Accessibility and motion
-
-- Tabs follow the ARIA tabs pattern (arrow keys, Home and End). The carousel works with swipe, buttons and the arrow keys when it has focus.
-- The form uses real labels, and its error messages use text and an icon (not colour alone). Service chips are native radio buttons.
-- `prefers-reduced-motion` turns off all animation. Without JavaScript, every tab panel stays visible.
-
-## What was tested
-
-- No horizontal overflow and no clipped text at 360, 390, 430, 768, 1024, 1440 and 1920px. Visual review at 360px, 700px, 1280px and 1440px.
-- Chrome interaction tests:
-  - planner and service tabs, by click and keyboard
-  - carousel buttons, counter and end state
-  - call-to-action → form service pre-selection
-  - form validation, including the radio chips
-  - WhatsApp message encoding
-- No console errors.
+- Every page at 1440px and 390px: no horizontal overflow, no failed requests, no console errors.
+- All internal links and `#anchors` resolve. Every icon class has a definition.
+- Navigation works over `http://` and when opened from disk.
+- Enquiry form: validation, live re-validation, WhatsApp message, character counter and service pre-selection.
+- Enquiry function: 21 automated checks covering wrong method or content type, foreign origin, malformed or oversized body, field validation, header-injection attempts, HTML escaping, honeypot, too-fast submissions, rate limiting, missing credentials and SMTP failure. Also a browser run of the full form with the local dev server.
 
 **Not run:** Lighthouse, the W3C validator, real devices, and browsers other than Chrome.

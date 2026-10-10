@@ -1,0 +1,74 @@
+  <main id="main">
+
+    <!-- 1 · Hero -->
+    <section class="page-hero" aria-labelledby="services-title">
+      <div class="container page-hero__grid">
+        <div class="page-hero__copy">
+          {{crumbs:Services}}
+          <p class="eyebrow">Services</p>
+          <h1 class="t-h1" id="services-title" style="max-width:720px">Digital Services, Matched to What Your Business Needs<span class="dot-end">.</span></h1>
+          <p class="t-lead">Eight areas of work — from websites and search to design, social media and measurement. Start with one, or combine them into a plan that fits your goals and budget.</p>
+          <div class="page-hero__actions">
+            <a class="btn btn--primary" href="{{root}}contact/">Discuss Your Project<span class="i i-arrow-right"></span></a>
+            <a class="btn btn--secondary" href="#finder">Find the Right Service<span class="i i-arrow-right"></span></a>
+          </div>
+        </div>
+        {{toc}}
+      </div>
+    </section>
+
+    <!-- 2 · Service ledger -->
+    <section class="ledger" aria-label="All services">
+      <div class="container">
+        {{ledger}}
+      </div>
+    </section>
+
+    <!-- 3 · Service finder -->
+    <section class="section bg-surface" id="finder" aria-labelledby="finder-title" style="padding-top:clamp(72px, 41.6px + 4.571vw, 112px);padding-bottom:112px">
+      <div class="container">
+        <div class="intro" style="margin-bottom:32px">
+          <div class="intro__heading">
+            <p class="eyebrow">Not sure?</p>
+            <h2 class="t-h2" id="finder-title">Not Sure Where to Start?</h2>
+          </div>
+          <p class="intro__lead t-lead hide-sm">Answer two quick questions and we will suggest a sensible first step. Nothing is stored — it simply points you to the right page.</p>
+        </div>
+        {{finder}}
+      </div>
+    </section>
+
+    <!-- 4 · How pricing works -->
+    <section class="pricing mode-dark" aria-labelledby="pricing-title">
+      <div class="container pricing__grid">
+        <div class="pricing__copy">
+          <p class="eyebrow">How pricing works</p>
+          <h2 class="t-h2" id="pricing-title">No Fixed Packages. Clear, Written Quotes.</h2>
+          <ol class="pricing__steps">
+            <li><span class="t-index">01</span><div><h3 class="t-h4">A short conversation</h3><p class="t-small">We learn what you need, what you already have and what success looks like.</p></div></li>
+            <li><span class="t-index">02</span><div><h3 class="t-h4">A written scope and quote</h3><p class="t-small">What is included, what is not, timelines and our fee — before any work starts.</p></div></li>
+            <li><span class="t-index">03</span><div><h3 class="t-h4">Third-party costs listed separately</h3><p class="t-small">Domains, hosting, plugins, ad budgets, photography or printing are shown as separate lines, paid to the provider.</p></div></li>
+          </ol>
+        </div>
+        {{planner:services-plan}}
+      </div>
+    </section>
+
+    <!-- 5 · FAQ -->
+    <section class="section" aria-labelledby="faq-title">
+      <div class="container faq-section__grid">
+        <div class="faq-section__heading">
+          <p class="eyebrow">FAQ</p>
+          <h2 class="t-h2" id="faq-title">Questions About Our Services.</h2>
+        </div>
+        {{faq:services}}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section aria-label="Start a project" style="padding-bottom:var(--section-y)">
+      <div class="container">
+        {{cta}}
+      </div>
+    </section>
+  </main>
